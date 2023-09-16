@@ -21,7 +21,7 @@ console.log('default args [ sleepMilliseconds ]: ' + sleepMs);
 console.log('default args [ maxSimultaneousQueries ]: ' + maxSimultaneousQueries);
 console.log('default args [ topFolder ]: ' + topFolder);
 
-console.log('---end of default args ----- ');
+console.log('---end of default args [Incrementals] ----- ');
 
 /* 
 LOG FILE: (..var/log/splunk/dap2.log | grep args)
@@ -48,7 +48,7 @@ Shows received args from the node command (..var/log/splunk/dap2.log | grep args
 process.argv.forEach(function (val, index, array) {
 	console.log('args : '+ index +' : '+ val);
 });
-console.log('---end of args ----- ');
+console.log('---end of args [Incrementals] ----- ');
 
 /* */
 
@@ -70,7 +70,7 @@ process.argv.forEach(function (val, index, array) {
 for (const key of Object.keys(argsDict)) { 
 	console.log('argsDict '+key+ ' : ' +argsDict[key]);
 };
-console.log('---end of argsDict ----- ');
+console.log('---end of argsDict [Incrementals] ----- ');
 
 /* */
 
@@ -100,7 +100,7 @@ console.log('-args [ topFolder ]: ' + argsDict[7]);
 topFolder = argsDict[7];
 console.log('+args [ topFolder ]: ' + topFolder);
 
-console.log('---end of args assignment ----- ');
+console.log('---end of args assignment [Incrementals] ----- ');
 
 /* */
 
@@ -838,39 +838,44 @@ const listFilesInDir = (path) => {
  * <p> The last table update is sought for in 'incremental' and 'snapshot' folders that are siblings of the folder given 
  * excluding the folder given. </p> 
  */
+
 const findLastTableUpdate = async (table, folderName)=> {
-	// 1- Find snapshot AND increm folders that are direct children of the current folder 
+	// 1- Find snapshot AND increm folders that are direct children of the current folder
 	// (with the exception of 'excludeFolderName")
 	// 2- in this folder, find the file/s that corresponds to the table given, and take the most recent one
 	// 3- return filename just found.
-	// 4- if no match for the file in a particular folder, switch to the next folder in the listing until 
+	// 4- if no match for the file in a particular folder, switch to the next folder in the listing until
 	// a file matching the table is found, and return it.
 	let parentFolderPath  = path.dirname(folderName)
 	let folderNameProper = folderName.substr(parentFolderPath.length)
 	console.log("Will be looking for the last table update to " + table + " underneath folder: ", parentFolderPath)
-	let  dirEntries = await fs.readdir(parentFolderPath, { withFileTypes: true });
-	let onlyRelevantDirs = dirEntries.filter(de => de.isDirectory() && de.name !== folderName && 
-			(de.name.indexOf("snapshot_") == 0 || de.name.indexOf("incremental_") == 0)) // 1/10/23 updated - check it out!!!
+	// 9/1/23  dirEntries = await fs.readdir(parentFolderPath, { withFileTypes: true });
+	let  dirEntries = Fs.readdirSync(parentFolderPath);
+	// 9/5/23 let onlyRelevantDirs = dirEntries.filter(de => de.isDirectory() && de.name !== folderName &&
+	//            (de.name.indexOf("snapshot_") == 0 || de.name.indexOf("incremental_") == 0)) // 1/10/23 updated - check it out!!!
+	let onlyRelevantDirs = dirEntries.filter(de => de && de.length > 9 && de !== folderName && (de.indexOf("snapshot_") === 0 || de.indexOf("incremental_") === 0))
 	//console.log("There are " + onlyRelevantDirs.length + " relevant directories I'll explore: ", onlyRelevantDirs)
 	console.log("There are " + onlyRelevantDirs.length + " relevant directories I'll explore... ")
 	let tableNameLength = table ? table.length : 0
-	// 2- Order these folders starting from the most recent one (use the timestamps included as part of the folder names)
-	// 1/10/23 onlyRelevantDirs = sortArray(onlyRelevantDirs, "name", "desc")
-	onlyRelevantDirs = sortArray(onlyRelevantDirs, item =>{ return parseFolderName(item.name).timestamp}, "desc")
+	// 2- order these folders starting from the most recent one
+	// 9/5/23 onlyRelevantDirs = sortArray(onlyRelevantDirs, item => {return parseFolderName(item.name).timestamp}, "desc")
+	onlyRelevantDirs = sortArray(onlyRelevantDirs, item => {return parseFolderName(item).timestamp}, "desc")
 	let currentFolderIndex = 0
 	let done = false
 	let result
 	if (onlyRelevantDirs && onlyRelevantDirs.length > 0) {
 		while (!done) {// iteratively look for a file in the folders in order
 			let currentFolder = onlyRelevantDirs.length > 0 ? onlyRelevantDirs[currentFolderIndex] : undefined
+			//console.log("Currently inspecting folder: ", currentFolder)
 			if (currentFolder) {
-				// 1/10/23 let currentCandidateFiles= listFilesInDir("./" + currentFolder.name)
-				let currentCandidateFiles= listFilesInDir(parentFolderPath + "/" + currentFolder.name)
-				currentCandidateFiles = currentCandidateFiles.filter(filename => filename.length > tableNameLength && 
-						filename.substring(0, tableNameLength) === table) // only files matching the table remain
+				// 9/4/23 let currentCandidateFiles= listFilesInDir(parentFolderPath + "/" + currentFolder.name)
+				let currentCandidateFiles= listFilesInDir(parentFolderPath + "/" + currentFolder)
+				currentCandidateFiles = currentCandidateFiles.filter(filename => filename.length > tableNameLength && filename.substring(0, tableNameLength) === table) // only files matching the table remain
+				//console.log("The current candidate file names will be inspected...", currentCandidateFiles)
 				// order the candidate files with most recent on top
 				currentCandidateFiles = currentCandidateFiles.sort (function (x, y) {
 					return comparisonFunction(x, y)*(-1)})
+				//console.log("The current candidate file names were sorted as: ", currentCandidateFiles)
 				if (currentCandidateFiles && currentCandidateFiles.length > 0) {
 					result = currentCandidateFiles[0]
 					done = true

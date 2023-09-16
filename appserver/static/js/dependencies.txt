@@ -21,8 +21,8 @@
 @jridgewell/gen-mapping@0.3.2
 @jridgewell/resolve-uri@3.1.0
 @jridgewell/set-array@1.1.2
-@jridgewell/sourcemap-codec@1.4.14
-@jridgewell/trace-mapping@0.3.17
+@jridgewell/sourcemap-codec@1.4.15
+@jridgewell/trace-mapping@0.3.18
 @react-spring/animated@9.2.6
 @react-spring/core@9.2.6
 @react-spring/konva@9.2.6
@@ -82,7 +82,6 @@ immutability-helper@3.1.1
 invariant@2.2.4
 js-tokens@4.0.0
 jsesc@2.5.2
-jsonschema@1.4.1
 keycode@2.2.1
 license-webpack-plugin@4.0.2
 lodash-es@4.17.21

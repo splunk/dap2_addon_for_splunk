@@ -4,27 +4,27 @@
     "info": {
         "author": [
             {
-                "company": null,
-                "email": null,
-                "name": ""
+                "company": "FDSE",
+                "email": "fdse@splunk.com",
+                "name": "FDSE+NW"
             }
         ],
         "classification": {
             "categories": [
-                "Security, Fraud & Compliance"
+                "Monitoring"
             ],
-            "developmentStatus": "Production/Stable",
-            "intendedAudience": "IT Professionals"
+            "developmentStatus": "Beta",
+            "intendedAudience": "Education Institutes"
         },
         "commonInformationModels": null,
         "description": "DAP2 Add-on for Splunk",
         "id": {
             "group": null,
             "name": "dap2_addon_for_splunk",
-            "version": "0.0.0R3eea8ca"
+            "version": "1.1.5"
         },
         "license": {
-            "name": null,
+            "name": "Splunk Open Source License",
             "text": "LICENSE.txt",
             "uri": null
         },

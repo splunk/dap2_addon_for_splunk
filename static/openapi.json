@@ -2,10 +2,14 @@
     "openapi": "3.0.0",
     "info": {
         "title": "dap2_addon_for_splunk",
-        "version": "0.0.0R3eea8ca",
+        "version": "1.1.5",
         "description": "DAP2 Add-on for Splunk",
         "contact": {
-            "name": ""
+            "name": "FDSE+NW",
+            "email": "fdse@splunk.com"
+        },
+        "license": {
+            "name": "Splunk Open Source License"
         }
     },
     "servers": [

@@ -87,14 +87,6 @@ class ModInputDAP2_INPUT(base_mi.BaseModInput):
         except subprocess.CalledProcessError as e:
             helper.log_error(f"An error occurred while changing the JS file permissions: {e}")
 
-        #Give permissions to the .env file.
-        env_path = app_path.replace('dap2_input.py', '') + "DAP-nodescripts-beta-main/.env"
-        command = ["chmod", "u+rx", env_path]
-        try:
-            subprocess.run(command, check=True)
-        except subprocess.CalledProcessError as e:
-            helper.log_error(f"An error occurred while changing the .env file permissions: {e}")
-
         #Take variables from the UI.
         dap_URL = helper.get_arg("dap_URL")
         CD2ClientID = helper.get_arg("CD2ClientID")
@@ -118,7 +110,17 @@ class ModInputDAP2_INPUT(base_mi.BaseModInput):
             with open(os.path.join(os.environ["SPLUNK_HOME"], "var", "log", "splunk", "dap2.log"), "a") as f_stdout:
                 f_stdout.write(result.stdout)
                 f_stdout.write(result.stderr)
-                helper.log_info("The nodejs code is executed. Check dap2.log for details.")
+                helper.log_info("The '"+dap2_type+"' nodejs code is executed. Check dap2.log for details.")
+        except FileNotFoundError:
+            helper.log_error("Node.js is not installed or not found on your system.")
+
+        try:
+            #Version of the node.js code.
+            result = subprocess.run(['node', '--version'], capture_output=True, text=True)
+            with open(os.path.join(os.environ["SPLUNK_HOME"], "var", "log", "splunk", "dap2.log"), "a") as f_stdout:
+                f_stdout.write(result.stdout)
+                f_stdout.write(result.stderr)
+                helper.log_info("The 'node --version' code is executed. Check dap2.log for details.")
         except FileNotFoundError:
             helper.log_error("Node.js is not installed or not found on your system.")
 

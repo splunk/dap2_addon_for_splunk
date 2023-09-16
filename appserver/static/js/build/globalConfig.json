@@ -110,17 +110,18 @@
                         },
                         {
                             "type": "text",
-                            "label": "Interval",
+                            "label": "Interval/CronSchedule",
                             "validators": [
                                 {
-                                    "type": "regex",
-                                    "errorMsg": "Interval must be an integer.",
-                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$"
+                                    "type": "string",
+                                    "errorMsg": "Length of input name should be between 1 and 100",
+                                    "minLength": 1,
+                                    "maxLength": 100
                                 }
                             ],
-                            "defaultValue": "300",
+                            "defaultValue": "3600000",
                             "field": "interval",
-                            "help": "Time interval of the data input, in seconds.",
+                            "help": "Time Interval or CronSchedule of the input.",
                             "required": true
                         },
                         {
@@ -278,12 +279,8 @@
                         "field": "name"
                     },
                     {
-                        "label": "Interval",
+                        "label": "Interval/CronSchedule",
                         "field": "interval"
-                    },
-                    {
-                        "label": "Index",
-                        "field": "index"
                     },
                     {
                         "label": "Status",
@@ -296,12 +293,40 @@
                         "field": "name"
                     },
                     {
-                        "label": "Interval",
+                        "label": "Interval/CronSchedule",
                         "field": "interval"
                     },
                     {
-                        "label": "Index",
-                        "field": "index"
+                        "label": "Script (dap2_type)",
+                        "field": "dap2_type"
+                    },
+                    {
+                        "label": "DAP2 URL (dap_URL)",
+                        "field": "dap_URL"
+                    },
+                    {
+                        "label": "Add-on account",
+                        "field": "account"
+                    },
+                    {
+                        "label": "DAP2 Client ID (CD2ClientID)",
+                        "field": "CD2ClientID"
+                    },
+                    {
+                        "label": "DAP2 Secret (CD2Secret)",
+                        "field": "CD2Secret"
+                    },
+                    {
+                        "label": "Sleep in Milliseconds",
+                        "field": "sleepMilliseconds"
+                    },
+                    {
+                        "label": "Maximum Simultaneous Queries",
+                        "field": "maxSimultaneousQueries"
+                    },
+                    {
+                        "label": "Download directory (topFolder)",
+                        "field": "topFolder"
                     },
                     {
                         "label": "Status",
@@ -331,7 +356,7 @@
     "meta": {
         "name": "dap2_addon_for_splunk",
         "restRoot": "dap2_addon_for_splunk",
-        "version": "0.0.0R3eea8ca",
+        "version": "1.1.5",
         "displayName": "DAP2 Add-on for Splunk",
         "schemaVersion": "0.0.3"
     }
