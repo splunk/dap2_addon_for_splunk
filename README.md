@@ -40,5 +40,5 @@ Code that runs node.js is ../etc/apps/dap2_addon_for_splunk/dap2_input.py change
 #### Created by using UCC Framework. 
 https://splunk.github.io/addonfactory-ucc-generator/
 
-#### Node.js code (dap2-nodescripts-beta) developed and owned by @pgoldweic (Patricia Goldweic)
+#### Node.js code (dap2-nodescripts-beta) developed and owned by @pgoldweic (Patricia Goldweic) [Apache-2.0 license]
 https://github.com/pgoldweic/DAP-nodescripts-beta
