@@ -19,7 +19,7 @@ Splunk Enterprise 8.1.x, 8.2.x, 9.0.x. (Splunk includes node 8.17.0 in the list 
 Disk space for the data to download from the Canvas Data Access Platform 2 (DAP2).  (Data size may change depending on the Canvas data size.)
 
 
-### Step 1: Upload and install the “dap2_addon_for_splunk-1.X.X.tar.gz” file to the Splunk Enterprise instance.
+### Step 1: Upload and Install
 
 Please log in to Splunkbase then download the add-on from Splunkbase. If you don’t have a Splunkbase account, please create one.
 (Alternatively, you can use the “+ Find More Apps” section of Splunk Enterprise to find this add-on and install it.)
