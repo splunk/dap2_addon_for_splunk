@@ -121,4 +121,10 @@ https://github.com/splunk/addonfactory-ucc-generator
 https://github.com/pgoldweic/DAP-nodescripts-beta
 
 
+Kudos to Northwestern University for their contributions! 
+(Patricia Goldweic pgoldweic@northwestern.edu & Frank Wayne frank.wayne@northwestern.edu)
+
+
+
+
 
